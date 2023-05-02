@@ -1,6 +1,9 @@
 
 chrome.tabs.onCreated.addListener(async () => {
-  await playSound()
+  await playSound('metal')
+})
+chrome.tabs.onRemoved.addListener(async () => {
+  await playSound('glass')
 })
 
 async function hasOffscreenDocument (offscreenUrl) {
@@ -24,10 +27,11 @@ async function createOffscreen () {
   }
 }
 
-async function playSound () {
+async function playSound (type) {
   await createOffscreen()
   chrome.runtime.sendMessage({
     type: 'play-falling-pipe-sound',
-    target: 'offscreen-doc'
+    target: 'offscreen-doc',
+    value: type
   })
 }
